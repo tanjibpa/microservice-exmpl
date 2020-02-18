@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - database.env
+    volumes: 
+        - "database-data:/var/lib/postgresql/data"
+    network_mode: "host"
+
+  app:
+    build: .
+    depends_on: 
+      - db
+    command: python3 app.py
+    network_mode: host
+
+volumes:
+  database-data:
